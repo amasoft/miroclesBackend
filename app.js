@@ -14,8 +14,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-const port = 3001;
-app.use("/api/vi/", studentroute);
+const port = process.env.PORT || 3001;
+app.use("/api/vi/student/", studentroute);
 const dbURI =
   "mongodb+srv://academy:wT9kNM0qlSBSQFt8@cluster0.ouczjzq.mongodb.net/AcademyDB";
 mongoose
