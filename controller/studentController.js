@@ -1,23 +1,13 @@
 import Student from "../model/studentModel.js";
+import { check, validationResult } from "express-validator";
+import { validateEmail } from "../util/validateEmail.js";
+import { sendmail } from "../util/sendmail.js";
 const handleErrors = (err) => {
   // console.log("handleErrors", err);
 
-  let errors = { email: "", password: "" };
-  //incoreet email
-  if (err.message === "incorrect Email") {
-    errors.email = "email not registered ";
-  }
-  //incoreet password
-  if (err.message === "incorrect Password") {
-    // errors.password = "password is incorrect ";
-  }
-  //duplivcate error code
-  if (err.code === 11000) {
-    errors.email = "that email is already registerd";
-    return errors;
-  }
-  //validat
-  if (err.message.includes("user validation failed")) {
+  let errors = {};
+
+  if (err.message.includes("Student validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
       console.log("888888", properties);
@@ -28,18 +18,19 @@ const handleErrors = (err) => {
 };
 export default class StudentController {
   static async addStudent(req, res, next) {
-    // const { email, password } = req.body;
-    const verifycode = Math.floor(Math.random() * 90000) + 10000;
-    req.body.code = verifycode;
-    req.body.verified = false;
     try {
+      const { email } = req.body;
+      const verifycode = Math.floor(Math.random() * 90000) + 10000;
+      req.body.code = verifycode;
+      req.body.verified = false;
+      if (!validateEmail(email))
+        return res
+          .status(400)
+          .json({ message: "please enter coreect email address" });
       const student = await Student.create(req.body);
-      // const token = createToken(user._id);
-      //const sendCode = await sendmail(verifycode, email);
-      //res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+      const sendCode = await sendmail(verifycode, email);
       res.status(201).json({
         student: student._id,
-        // token,
         message: "Registration Succesfull Proceed to verify your Email",
       });
     } catch (err) {
