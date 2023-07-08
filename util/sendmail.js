@@ -13,7 +13,6 @@ export const sendmail = async (verifycode, email) => {
     from: "academy@miroclesconsolidation.com",
     to: `${email}`,
     subject: "Account Verification",
-    // text: "you have a new request for backend task ",
     html:
       "<h4>welcome </h4>" +
       `<p>below is the verification code  ${verifycode} </p>`,
@@ -35,25 +34,21 @@ export const sendmail = async (verifycode, email) => {
 
 export const emailverified = async (email) => {
   var transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "mail.privateemail.com",
+    port: 465,
     auth: {
-      user: "amadifaraday@gmail.com",
-      pass: "foympeqrkqmkukac",
+      user: "academy@miroclesconsolidation.com",
+      pass: "academy@miro001",
     },
   });
 
   var verifedemailopt = {
-    from: "amadifaraday@gmail.com",
+    from: "academy@miroclesconsolidation.com",
     to: `${email}`,
     subject: "Email Verified",
-    // text: "you have a new request for backend task ",
     html:
       "<h4>welcome </h4>" +
       `<p>Congratltions your Email have been verifed sucessfully </p>`,
-    // `<p>below is the details :</p>` +
-    // `<p>Type of Project :${projectType}</p>` +
-    // `<p>project Description :${projectDesc}</p>` +
-    // `<p>Contact email :${email}</p>`,
   };
 
   const sendMail = transporter.sendMail(

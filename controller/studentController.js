@@ -1,7 +1,7 @@
 import Student from "../model/studentModel.js";
 import { check, validationResult } from "express-validator";
 import { validateEmail } from "../util/validateEmail.js";
-import { sendmail } from "../util/sendmail.js";
+import { sendmail, emailverified } from "../util/sendmail.js";
 const handleErrors = (err) => {
   // console.log("handleErrors", err);
 
@@ -38,5 +38,46 @@ export default class StudentController {
       console.log("arinze", err);
       res.status(400).json({ errors });
     }
+  }
+  static async verifyEmail(req, res) {
+    const { code } = req.body;
+    const checkCode = await Student.findOne({
+      code: req.body.code,
+    });
+    console.log(checkCode);
+
+    if (!checkCode) {
+      console.log("checkCode", checkCode);
+
+      return res.status(401).json({
+        message: "Incorrct code",
+      });
+    }
+    // console.log("checkCode id", checkCode._id);
+    try {
+      const isupdate = await Student.updateOne(
+        { code: "9000909" },
+        { $set: { verified: true, gender: "others", code: undefined } }
+      );
+
+      console.log("isupdate  ");
+      console.log(JSON.stringify(isupdate));
+      // "engines": {
+      //   // "node": ">=14.0.0",
+      //   // "npm": "8.3.1"
+      // }
+      // (err, result) => {
+      //   if (err) {
+      //     console.log("err", err);
+      //   } else {
+      //     console.log("success", result);
+      //     const sendverifiedmail = emailverified(checkCode.email);
+      //     return res.status(200).json({
+      //       message: "Email veriefied",
+      //     });
+      //   }
+      // }
+      //);
+    } catch (error) {}
   }
 }

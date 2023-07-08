@@ -13,11 +13,10 @@ const app = express();
 // middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({ origin: true }));
 const port = process.env.PORT || 3001;
 app.use("/api/vi/student/", studentroute);
-const dbURI =
-  "mongodb+srv://academy:wT9kNM0qlSBSQFt8@cluster0.ouczjzq.mongodb.net/AcademyDB";
+const dbURI = process.env.URL;
 mongoose
   .connect(dbURI, {
     useNewUrlParser: true,
