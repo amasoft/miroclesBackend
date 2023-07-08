@@ -11,9 +11,9 @@ dotenv.config({ path: "./config.env" });
 const app = express();
 
 // middleware
+app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: true }));
 const port = process.env.PORT || 3001;
 app.use("/api/vi/student/", studentroute);
 const dbURI = process.env.URL;
