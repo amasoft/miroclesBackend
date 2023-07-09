@@ -47,37 +47,32 @@ export default class StudentController {
     console.log(checkCode);
 
     if (!checkCode) {
-      console.log("checkCode", checkCode);
-
       return res.status(401).json({
         message: "Incorrct code",
       });
     }
-    // console.log("checkCode id", checkCode._id);
-    try {
-      const isupdate = await Student.updateOne(
-        { code: "9000909" },
-        { $set: { verified: true, gender: "others", code: undefined } }
-      );
-
-      console.log("isupdate  ");
-      console.log(JSON.stringify(isupdate));
-      // "engines": {
-      //   // "node": ">=14.0.0",
-      //   // "npm": "8.3.1"
-      // }
-      // (err, result) => {
-      //   if (err) {
-      //     console.log("err", err);
-      //   } else {
-      //     console.log("success", result);
-      //     const sendverifiedmail = emailverified(checkCode.email);
-      //     return res.status(200).json({
-      //       message: "Email veriefied",
-      //     });
-      //   }
-      // }
-      //);
-    } catch (error) {}
+    if (checkCode.verified === true) {
+      return res.status(200).json({
+        message: "Email Already verified",
+      });
+    }
+    await Student.updateOne(
+      { code: code },
+      { $set: { verified: true, code: "undefined" } },
+      (err, result) => {
+        if (err) {
+          console.log("err", err);
+          // return res.status(200).json({
+          //   message: "erro verifying Email",
+          // });
+        } else {
+          console.log("success", result);
+          const sendverifiedmail = emailverified(checkCode.email);
+          return res.status(200).json({
+            message: "Email veriefied",
+          });
+        }
+      }
+    );
   }
 }
