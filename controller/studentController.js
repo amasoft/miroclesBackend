@@ -28,7 +28,8 @@ export default class StudentController {
           .status(400)
           .json({ message: "please enter coreect email address" });
       const student = await Student.create(req.body);
-      const sendCode = await sendmail(verifycode, email);
+      const name = req.body.lastName + " " + req.body.firstName;
+      const sendCode = await sendmail(verifycode, email, name);
       res.status(201).json({
         student: student._id,
         message: "Registration Succesfull Proceed to verify your Email",
