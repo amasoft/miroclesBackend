@@ -18,7 +18,6 @@ export const sendmail = async (verifycode, email, name) => {
     //   `<p>below is the verification code  ${verifycode} </p>`,
     html: `
     <section>
-        {/* MESSAGE FROM OUR SITE VERIFICATION PAGE UPON SUCCESSFUL SUBMITION OF THE ENROLLMENT FORM */}
         <p>To complete the email verification process, please follow the steps below:</p>
         <ol>
             <li>Open your preferred web browser and login to your email box.</li>
@@ -29,8 +28,8 @@ export const sendmail = async (verifycode, email, name) => {
       </section>
         
       <section>
-        {/* MESSAGE SENT TO THE USER'S EMAIL BOX FOR VERIFICATION*/}
-        <h1>Subject: Account Email Verification - Action Required</h1>
+
+      <h1>Subject: Account Email Verification - Action Required</h1>
 
         <h2>Dear ${name},</h2>
 
@@ -52,9 +51,7 @@ export const sendmail = async (verifycode, email, name) => {
       </section>
         
 
-        {/* MESSAGE ON THE CONFIRMATION PAGE */}
 
-        {/* when successful */}
         <p>Congratulations! Your account is now active, and you can start exploring our platforms.</p>
         <a href='https://join.slack.com/t/miroclesacademy/shared_invite/zt-1ybtyk5tx-w6RPFKR9rF1nlN2VINEGMQ' rel='noreferrer' target='_blank' >Click here to join our student platform on slack</a>
 
@@ -77,7 +74,7 @@ export const sendmail = async (verifycode, email, name) => {
   });
 };
 
-export const emailverified = async (email) => {
+export const emailverified = async (email, name) => {
   var transporter = nodemailer.createTransport({
     host: "mail.privateemail.com",
     port: 465,
@@ -90,10 +87,42 @@ export const emailverified = async (email) => {
   var verifedemailopt = {
     from: "academy@miroclesconsolidation.com",
     to: `${email}`,
-    subject: "Email Verified",
-    html:
-      "<h4>welcome </h4>" +
-      `<p>Congratltions your Email have been verifed sucessfully </p>`,
+    subject:
+      "Enrollment Confirmation - Successful Admission to Mirocles Academy",
+    html: `
+    <p>Dear ${name},</p> <br/>
+
+    <p>It is with great pleasure that we extend our sincerest congratulations on the successful acceptance and processing of your enrollment application at Mirocles Academy for the upcoming cohort 1. Your commitment to academic excellence and exemplary qualifications have impressed our admissions committee, and we are honored to welcome you as a distinguished member of our esteemed institution.</p>
+
+    <p>Your discerning choice to join our academic community reflects your dedication to intellectual growth and pursuit of knowledge. Throughout your tenure at Mirocles Academy, you will have the privilege of immersing yourself in a rich and rigorous educational environment, guided by esteemed faculty members and supported by comprehensive resources.</p>
+
+    <a href="https://join.slack.com/t/miroclesacademy/shared_invite/zt-1ybtyk5tx-w6RPFKR9rF1nlN2VINEGMQ" rel='noreferrer' target='_blank'>Click here to join our student platform on slack</a>
+
+    <p>We would like to provide you with important details regarding your enrollment:</p>
+
+    <ul>
+      <li>Program/Course: Frontend Development</li>
+      <li>Start Date: 7th of August</li>
+      <li>Duration: 5 months</li>
+      <li>Campus/Location: Online</li>
+      <li>Class Schedule: Wednesday, Friday, Saturday and Sunday</li>
+    </ul>
+        
+    <p>We understand that commencing an academic journey of this magnitude can evoke a mixture of excitement and apprehension. Therefore, we encourage you to avail yourself of our dedicated support services, which are designed to address any questions or concerns you may have. Our committed team is eager to assist you in navigating the intricacies of your chosen program, ensuring a seamless transition and facilitating your intellectual and personal development.</p>
+
+    <p>In the near future, please anticipate further correspondence from our admissions office. These communications will provide vital information pertaining to orientation programs, documentation requirements, and other pertinent details that will facilitate your successful integration into the program.</p>
+
+    <p> Once again, we congratulate you on your successful enrollment, and we eagerly await the opportunity to witness your scholarly pursuits and remarkable achievements during your time at Mirocles Academy. Your presence enriches our academic community, and we look forward to fostering an environment that fosters intellectual growth and nurtures your potential.</p>
+
+    <p>Should you have any immediate inquiries, kindly do not hesitate to contact our admissions office via email at academy@miroclesconsolidation.com . Our dedicated staff is readily available to address any concerns or provide further assistance.</p>
+
+    <p>With warmest regards, </p> <br/>
+
+    <p>Obiora Emmanuel <br/>Director<br/>Mirocles Academy</p>
+
+    <a href="https://join.slack.com/t/miroclesacademy/shared_invite/zt-1ybtyk5tx-w6RPFKR9rF1nlN2VINEGMQ" rel='noreferrer' target='_blank'>Click here to join our student platform on slack</a>
+
+    `,
   };
 
   const sendMail = transporter.sendMail(

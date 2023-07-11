@@ -52,6 +52,7 @@ export default class StudentController {
         message: "Incorrct code",
       });
     }
+    const name = checkCode.lastName + "  " + checkCode.firstName;
     if (checkCode.verified === true) {
       return res.status(200).json({
         message: "Email Already verified",
@@ -63,12 +64,12 @@ export default class StudentController {
       (err, result) => {
         if (err) {
           console.log("err", err);
-          // return res.status(200).json({
-          //   message: "erro verifying Email",
-          // });
+          return res.status(200).json({
+            message: "erro verifying Email",
+          });
         } else {
           console.log("success", result);
-          const sendverifiedmail = emailverified(checkCode.email);
+          const sendverifiedmail = emailverified(checkCode.email, name);
           return res.status(200).json({
             message: "Email veriefied",
           });
