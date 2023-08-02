@@ -5,5 +5,6 @@ const router = express.Router();
 import { UserExist } from "../middleware/authMiddleware.js";
 router.post("/", [UserExist], StudentController.addStudent);
 router.post("/verify", StudentController.verifyEmail);
+router.post("/login", StudentController.login);
 
 export default router;

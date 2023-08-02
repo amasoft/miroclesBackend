@@ -2,6 +2,7 @@ import Student from "../model/studentModel.js";
 import { check, validationResult } from "express-validator";
 import { validateEmail } from "../util/validateEmail.js";
 import { sendmail, emailverified } from "../util/sendmail.js";
+import { createToken } from "../util/tokenfile.js";
 const handleErrors = (err) => {
   // console.log("handleErrors", err);
 
@@ -33,6 +34,7 @@ export default class StudentController {
       res.status(201).json({
         student: student._id,
         message: "Registration Succesfull Proceed to verify your Email",
+        token: createToken(student._id),
       });
     } catch (err) {
       const errors = handleErrors(err);
@@ -40,6 +42,7 @@ export default class StudentController {
       res.status(400).json({ errors });
     }
   }
+
   static async verifyEmail(req, res) {
     const { code } = req.body;
     const checkCode = await Student.findOne({
@@ -76,5 +79,35 @@ export default class StudentController {
         }
       }
     );
+  }
+
+  static async login(req, res) {
+    const { email, password } = req.body;
+    console.log("welcome to login page");
+    try {
+      const student = await Student.login(email, password);
+
+      if (student) {
+        var result = {
+          firstname: student.firstName,
+          lastname: student.DOB,
+          email: student.email,
+          phone: student.phone,
+          gender: student.gender,
+        };
+        return res.status(200).json({
+          data: result,
+          message: "Registration Succesfull Proceed to verify your Email",
+          token: createToken(student._id),
+        });
+      }
+      return res.status(401).json({
+        status: 401,
+        message: "incorrect email/Password",
+      });
+    } catch (error) {
+      const errors = handleErrors(error);
+      res.status(400).json({ errors });
+    }
   }
 }
