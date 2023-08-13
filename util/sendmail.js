@@ -12,24 +12,11 @@ export const sendmail = async (verifycode, email, name) => {
   var mailOptions = {
     from: "academy@miroclesconsolidation.com",
     to: `${email}`,
-    subject: "Account Verification",
-    // html:
-    //   "<h4>welcome </h4>" +
-    //   `<p>below is the verification code  ${verifycode} </p>`,
+    subject: "Account Email Verification - Action Required",
     html: `
-    <section>
-        <p>To complete the email verification process, please follow the steps below:</p>
-        <ol>
-            <li>Open your preferred web browser and login to your email box.</li>
-            <li>Copy the code in the verification mail</li>
-            <li>enter the copied code in the confirmation page</li>
-            <li>Click Verify</li>
-        </ol>
-      </section>
+   
         
       <section>
-
-      <h1>Subject: Account Email Verification - Action Required</h1>
 
         <h2>Dear ${name},</h2>
 
@@ -49,14 +36,7 @@ export const sendmail = async (verifycode, email, name) => {
 
         <p>Best regards, <br/>Mirocles Academy Team </p>
       </section>
-        
 
-
-        <p>Congratulations! Your account is now active, and you can start exploring our platforms.</p>
-        <a href='https://join.slack.com/t/miroclesacademy/shared_invite/zt-1ybtyk5tx-w6RPFKR9rF1nlN2VINEGMQ' rel='noreferrer' target='_blank' >Click here to join our student platform on slack</a>
-
-        {/* when a wrong code is entered */}
-        <p>You have entered an invalid code.</p>
            `,
   };
 

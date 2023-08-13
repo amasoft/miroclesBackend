@@ -38,7 +38,6 @@ export default class StudentController {
       });
     } catch (err) {
       const errors = handleErrors(err);
-      console.log("arinze", err);
       res.status(400).json({ errors });
     }
   }
@@ -90,14 +89,13 @@ export default class StudentController {
       if (student) {
         var result = {
           firstname: student.firstName,
-          lastname: student.DOB,
+          lastname: student.lastName,
           email: student.email,
           phone: student.phone,
           gender: student.gender,
         };
         return res.status(200).json({
-          data: result,
-          message: "Registration Succesfull Proceed to verify your Email",
+          message: "Login  Succesfull ",
           token: createToken(student._id),
         });
       }
